@@ -28,7 +28,9 @@ public class UserServiceImpl implements UserService {
 			userDao.save(user);
 			User user2 = userDao.findbyemail(user.getEmail());
 			Account account = new Account(user2);
-			accountDao.save(account);
+			if(accountDao.findbyAccountNumber(account.getAccount()) == null) {
+				accountDao.save(account);
+			}
 		} else {
 			userDao.update(user);
 		}

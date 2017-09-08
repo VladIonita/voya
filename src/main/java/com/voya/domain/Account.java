@@ -17,9 +17,23 @@ public class Account {
 
 	private final String currency = "RON";
 
+	private String from;
+
+	private String to;
+
+	public Account() {
+	}
+
 	public Account(User user) {
 		this.account = randomAccountGeneration();
 		this.user = user;
+	}
+
+	public Account(Integer id, User user, String account, Integer balance) {
+		this.id = id;
+		this.user = user;
+		this.account = account;
+		this.balance = balance;
 	}
 
 	public Integer getId() {
@@ -57,27 +71,38 @@ public class Account {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	//[RO][VV][BBBB][CCCCCCCCCCCCCCCC] 
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	public String getTo() {
+		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+
+	// [RO][VV][BBBB][CCCCCCCCCCCCCCCC]
 	public String randomAccountGeneration() {
-		System.out.println("am intrat in random");
 		StringBuilder s = new StringBuilder();
 		System.out.println(s.toString());
 		char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 		char[] chars2 = "0123456789".toCharArray();
 		Random rnd = new Random();
-		
 		s.append("RO");
-		System.out.println(s.toString());
 		s.append(10 + rnd.nextInt(89));
-		System.out.println(s.toString());
 		for (int i = 0; i < 4; i++) {
-		    s.append(chars[rnd.nextInt(chars.length)]);
+			s.append(chars[rnd.nextInt(chars.length)]);
 		}
-		System.out.println(s.toString());
 		for (int i = 0; i < 16; i++) {
-		    s.append(chars2[rnd.nextInt(chars2.length)]);
+			s.append(chars2[rnd.nextInt(chars2.length)]);
 		}
-		System.out.println(s.toString());
 		return s.toString();
 	}
 

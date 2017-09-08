@@ -13,5 +13,5 @@ public interface UserService {
 	public List<User> getUsers();
 
 	boolean isUserEmailUnique(Integer id, String email);
-
+	
 }
