@@ -28,7 +28,7 @@
 		</tr>
 	</c:forEach>
 </table>
-<a href="<c:url value="/useradd" />" class="btn btn-primary btn-sm"
+<a href="<c:url value="/edit" />" class="btn btn-primary btn-sm"
 	role="button">Add New User</a>
 <br />
 <a href="<c:url value="/userprofile/${userForm.id}/createaccount" />"

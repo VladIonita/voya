@@ -14,4 +14,6 @@ public interface UserService {
 
 	boolean isUserEmailUnique(Integer id, String email);
 	
+	void deleteUser(User user);
+	
 }

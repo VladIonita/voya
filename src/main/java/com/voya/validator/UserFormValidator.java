@@ -34,20 +34,22 @@ public class UserFormValidator implements Validator {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "first_name", "NotEmpty.userForm.first_name");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "last_name", "NotEmpty.userForm.last_name");
-
 			if (!emailValidator.valid(user.getEmail())) {
 				errors.rejectValue("email", "Pattern.userForm.email");
-			}
-
-			if (!userService.isUserEmailUnique(user.getId(), user.getEmail())) {
+			} else if (!userService.isUserEmailUnique(user.getId(), user.getEmail())) {
 				errors.rejectValue("email", "Valid.userForm.email");
 			}
+
+
+
 		} else {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "first_name", "NotEmpty.userForm.first_name");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "last_name", "NotEmpty.userForm.last_name");
 			if (!emailValidator.valid(user.getEmail())) {
 				errors.rejectValue("email", "Pattern.userForm.email");
+			} else if (!userService.isUserEmailUnique(user.getId(), user.getEmail())) {
+				errors.rejectValue("email", "Valid.userForm.email");
 			}
 		}
 

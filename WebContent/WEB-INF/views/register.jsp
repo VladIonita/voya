@@ -13,28 +13,27 @@
 </c:choose>
 <br />
 
-<spring:url value="/useradd" var="userActionUrl" />
+<spring:url value="/edit/${userForm.id}" var="userActionUrl" />
 <form:form modelAttribute="userForm" action="${userActionUrl}"
 	method="post">
-	<form:hidden path="id" />
 
 	<table align="center">
 		<tr>
 			<td><form:label path="first_name">First Name</form:label></td>
 			<td><form:input path="first_name" name="first_name"
-					id="first_name" />
-			<form:errors path="first_name" class="control-label" /></td>
+					id="first_name" /> <form:errors path="first_name"
+					class="control-label" /></td>
 		</tr>
 		<tr>
 			<td><form:label path="last_name">Last Name</form:label></td>
 			<td><form:input path="last_name" name="last_name" id="last_name" />
-			<form:errors path="last_name" class="control-label" /></td>
+				<form:errors path="last_name" class="control-label" /></td>
 
 		</tr>
 		<tr>
 			<td><form:label path="email">Email</form:label></td>
-			<td><form:input path="email" name="email" id="email" />
-			<form:errors path="email" class="control-label" /></td>
+			<td><form:input path="email" name="email" id="email" /> <form:errors
+					path="email" class="control-label" /></td>
 		</tr>
 		<tr>
 			<td><c:choose>

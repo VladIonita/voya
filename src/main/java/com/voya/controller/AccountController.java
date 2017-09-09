@@ -30,13 +30,12 @@ public class AccountController {
 	public String UserFormProfile(@PathVariable("id") int id, Model model) {
 		User user = userService.findById(id);
 		model.addAttribute("userForm", user);
-		model.addAttribute("partial", "userprofile");
 		model.addAttribute("listAccount", accountService.getAccount(user));
 
-		return "index";
+		return "userprofile";
 	}
 
-	// show user profile
+	// create account
 	@RequestMapping(value = "/{id}/createaccount", method = RequestMethod.GET)
 	public String createAccount(@PathVariable("id") int id, Model model) {
 		User user = userService.findById(id);
@@ -60,11 +59,10 @@ public class AccountController {
 
 	// deposit
 	@RequestMapping(value = "/{id}/deposit", method = RequestMethod.POST)
-	public String showDepositForm(@PathVariable("id") int id, @RequestParam("dep") Integer dep,
+	public String showDepositForm(@PathVariable int id, @RequestParam("dep") Integer dep,
 			@ModelAttribute("depositForm") Account accountg, Model model) {
 		Account account = accountService.findById(Integer.parseInt(accountg.getAccount()));
 		User user = userService.findById(id);
-		model.addAttribute("id", id);
 		if (dep == (int) dep) {
 			if (dep > 0) {
 				account.setBalance(account.getBalance() + dep);
@@ -86,18 +84,17 @@ public class AccountController {
 	}
 
 	// transfer
-	@RequestMapping(value = "/{id}/Transfer", method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/transfer", method = RequestMethod.POST)
 	public String showTransferForm(@PathVariable("id") int id, @RequestParam("dep") Integer dep,
 			@ModelAttribute("tranForm") Account account, Model model) {
 		Account accountNew = accountService.findById(Integer.parseInt(account.getTo()));
 		User user = userService.findById(id);
-		model.addAttribute("id", id);
 		if (dep == (int) dep) {
 			if (dep > 0) {
 				accountNew.setBalance(accountNew.getBalance() + dep);
 				accountService.saveOrUpdate(accountNew);
 			}
 		}
-		return "redirect:/UserProfile/" + user.getId();
+		return "redirect:/userprofile/" + user.getId();
 	}
 }

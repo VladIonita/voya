@@ -1,5 +1,7 @@
 package com.voya.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +22,8 @@ import com.voya.validator.UserFormValidator;
 
 @Controller
 public class UserController {
+	
+
 	
 	@Autowired
 	UserFormValidator userFormValidator;
@@ -43,18 +47,23 @@ public class UserController {
 		model.addAttribute("partial", "home");
 		return "home";
 	}
-
-	// show add user form
-	@RequestMapping(value = "/useradd", method = RequestMethod.GET)
-	public String showAddUserForm(Model model) {
-		User user = new User();
+	
+	// form save or update
+	@RequestMapping(value = { "/edit/{id}","/edit"} , method = RequestMethod.GET)
+	public String user(@PathVariable Optional<String> id, Model model) {
+		User user;
+		if (id.isPresent()) {
+			user = userService.findById(Integer.parseInt(id.get()));
+        } else {
+        	user = new User();
+        }
 		model.addAttribute("userForm", user);
 		model.addAttribute("partial", "register");
 		return "index";
 	}
-
+	
 	// save or update user
-	@RequestMapping(value = "/useradd", method = RequestMethod.POST)
+	@RequestMapping(value = {"/edit/{id}","/edit"},  method = RequestMethod.POST)
 	public String saveOrUpdateUser(@ModelAttribute("userForm") @Validated User user, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
@@ -62,16 +71,15 @@ public class UserController {
 			return "index";
 		}
 		userService.saveOrUpdate(user);
-		return "redirect:/home";
+		return "redirect:/";
 	}
 
-	// show edit form
-	@RequestMapping(value = "/useredit/{id}", method = RequestMethod.GET)
-	public String UserFormEdit(@PathVariable("id") int id, Model model) {
+	//delete user
+	@RequestMapping(value = "/userdelete/{id}", method = RequestMethod.GET)
+	public String userDelete(@PathVariable("id") Integer id, Model model) {
 		User user = userService.findById(id);
-		model.addAttribute("userForm", user);
-		model.addAttribute("partial", "register");
-		return "index";
+			userService.deleteUser(user);
+			return "redirect:/";
 	}
 
 }
