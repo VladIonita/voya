@@ -13,7 +13,7 @@
 </c:choose>
 <br />
 
-<spring:url value="/UserAdd" var="userActionUrl" />
+<spring:url value="/useradd" var="userActionUrl" />
 <form:form modelAttribute="userForm" action="${userActionUrl}"
 	method="post">
 	<form:hidden path="id" />

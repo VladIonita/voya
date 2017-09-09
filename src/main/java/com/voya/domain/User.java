@@ -7,14 +7,14 @@ import org.hibernate.validator.constraints.Email;
 public class User {
 
 	private Integer id;
-
+	
 	@NotNull
 	@Email
 	private String email;
-
+	
 	@NotNull
 	private String first_name;
-
+	
 	@NotNull
 	private String last_name;
 

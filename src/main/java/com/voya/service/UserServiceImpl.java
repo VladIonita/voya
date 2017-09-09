@@ -2,16 +2,21 @@ package com.voya.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.voya.dao.AccountDao;
 import com.voya.dao.UserDao;
+import com.voya.dao.UserDaoImpl;
 import com.voya.domain.Account;
 import com.voya.domain.User;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
+	private static Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
 
 	@Autowired
 	private UserDao userDao;
@@ -20,7 +25,9 @@ public class UserServiceImpl implements UserService {
 	private AccountDao accountDao;
 
 	public User findById(Integer id) {
+		LOGGER.info("Get user by id" + id );
 		return userDao.fById(id);
+		
 	}
 
 	public void saveOrUpdate(User user) {
@@ -37,6 +44,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public List<User> getUsers() {
+		LOGGER.info("Get all Users");
 		return userDao.getAllUsers();
 	}
 

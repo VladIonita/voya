@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,7 +18,7 @@ import com.voya.domain.User;
 
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-
+	
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
@@ -25,7 +27,6 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public User fById(Integer id) {
-
 		try {
 			String sqlQuery = "SELECT * FROM user WHERE id =?";
 			Object[] args = new Object[] { id };
@@ -46,7 +47,6 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	public User findbyemail(String email) {
-
 		try {
 			String sqlQuery = "SELECT * FROM user WHERE email =?";
 			Object[] args = new Object[] { email };

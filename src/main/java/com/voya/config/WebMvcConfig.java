@@ -29,7 +29,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		dataSource.setUrl(envValue);
 		dataSource.setUsername(envValueUsername);
 		dataSource.setPassword(envValuePassword);
-
 		return dataSource;
 	}
 

@@ -16,7 +16,7 @@ import com.voya.service.AccountService;
 import com.voya.service.UserService;
 
 @Controller
-@RequestMapping(value = "/UserProfile")
+@RequestMapping(value = "/userprofile")
 public class AccountController {
 
 	@Autowired
@@ -30,61 +30,58 @@ public class AccountController {
 	public String UserFormProfile(@PathVariable("id") int id, Model model) {
 		User user = userService.findById(id);
 		model.addAttribute("userForm", user);
-		model.addAttribute("partial", "UserProfile");
+		model.addAttribute("partial", "userprofile");
 		model.addAttribute("listAccount", accountService.getAccount(user));
 
 		return "index";
 	}
 
 	// show user profile
-	@RequestMapping(value = "/{id}/CreateAccount", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/createaccount", method = RequestMethod.GET)
 	public String createAccount(@PathVariable("id") int id, Model model) {
 		User user = userService.findById(id);
 		Account account = new Account(user);
 		accountService.saveOrUpdate(account);
 		model.addAttribute("userForm", user);
 		model.addAttribute("listAccount", accountService.getAccount(user));
-		return "redirect:/UserProfile/" + user.getId();
+		return "redirect:/userprofile/" + user.getId();
 	}
 
 	// show deposit
-	@RequestMapping(value = "/{id}/Deposit", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/deposit", method = RequestMethod.GET)
 	public String showDepositForm(@PathVariable("id") int id, Model model) {
 		User user = userService.findById(id);
 		model.addAttribute("listAccount", accountService.getAccount(user));
 		Account account = new Account();
 		model.addAttribute("depositForm", account);
-		model.addAttribute("partial", "Deposit");
+		model.addAttribute("partial", "deposit");
 		return "index";
 	}
 
 	// deposit
-	@RequestMapping(value = "/{id}/Deposit", method = RequestMethod.POST)
+	@RequestMapping(value = "/{id}/deposit", method = RequestMethod.POST)
 	public String showDepositForm(@PathVariable("id") int id, @RequestParam("dep") Integer dep,
 			@ModelAttribute("depositForm") Account accountg, Model model) {
-		System.out.println("acc"+ accountg.getAccount());
-		System.out.println("id"+ accountg.getId());
-
 		Account account = accountService.findById(Integer.parseInt(accountg.getAccount()));
 		User user = userService.findById(id);
 		model.addAttribute("id", id);
-		if (dep == (int)dep) {
+		if (dep == (int) dep) {
 			if (dep > 0) {
 				account.setBalance(account.getBalance() + dep);
 				accountService.saveOrUpdate(account);
 			}
 		}
-		return "redirect:/UserProfile/" + user.getId();
+		return "redirect:/userprofile/" + user.getId();
 	}
 
 	// show transfer
-	@RequestMapping(value = "/{id}/Transfer", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/transfer", method = RequestMethod.GET)
 	public String showTransferForm(@PathVariable("id") int id, Model model) {
 		User user = userService.findById(id);
 		model.addAttribute("listAccount", accountService.getAccount(user));
 		Account account = new Account();
 		model.addAttribute("tranForm", account);
-		model.addAttribute("partial", "Transfer");
+		model.addAttribute("partial", "transfer");
 		return "index";
 	}
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.voya.domain.User;
 import com.voya.service.AccountService;
 import com.voya.service.UserService;
@@ -19,7 +20,7 @@ import com.voya.validator.UserFormValidator;
 
 @Controller
 public class UserController {
-
+	
 	@Autowired
 	UserFormValidator userFormValidator;
 
@@ -40,11 +41,11 @@ public class UserController {
 		model.addAttribute("listUser", userService.getUsers());
 		model.addAttribute("pageTitle", "Users List");
 		model.addAttribute("partial", "home");
-		return "index";
+		return "home";
 	}
 
 	// show add user form
-	@RequestMapping(value = "/UserAdd", method = RequestMethod.GET)
+	@RequestMapping(value = "/useradd", method = RequestMethod.GET)
 	public String showAddUserForm(Model model) {
 		User user = new User();
 		model.addAttribute("userForm", user);
@@ -53,7 +54,7 @@ public class UserController {
 	}
 
 	// save or update user
-	@RequestMapping(value = "/UserAdd", method = RequestMethod.POST)
+	@RequestMapping(value = "/useradd", method = RequestMethod.POST)
 	public String saveOrUpdateUser(@ModelAttribute("userForm") @Validated User user, BindingResult result,
 			Model model) {
 		if (result.hasErrors()) {
@@ -65,7 +66,7 @@ public class UserController {
 	}
 
 	// show edit form
-	@RequestMapping(value = "/UserEdit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/useredit/{id}", method = RequestMethod.GET)
 	public String UserFormEdit(@PathVariable("id") int id, Model model) {
 		User user = userService.findById(id);
 		model.addAttribute("userForm", user);
