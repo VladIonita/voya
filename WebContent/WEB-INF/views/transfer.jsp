@@ -4,7 +4,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-
 <spring:url value="/userprofile/${id}/transfer" var="userActionUrl" />
 <form:form modelAttribute="depositForm" method="post"
 	action="${userActionUrl}">
@@ -13,17 +12,20 @@
 		<tr>
 			<td><label>Select Account From</label></td>
 			<td><form:select path="account">
-					<form:options items="${listAccount}" itemLabel="account"
-						itemValue="id" />
+					<c:forEach items="${listAccount}" var="acc">
+						<form:option itemValue="id"
+							value="${acc.id}">${acc.account} (${acc.balance} RON)</form:option>
+					</c:forEach>
 				</form:select></td>
 		</tr>
 		<tr>
 			<td><label>Select Account To</label></td>
 			<td><form:select path="to">
-					<form:options items="${listAccount}" itemLabel="account"
-						itemValue="id" />
+					<c:forEach items="${listAccount}" var="acc" >
+						<form:option itemValue="id" 	
+							value="${acc.id}">${acc.account} (${acc.balance} RON)</form:option>
+					</c:forEach>
 				</form:select></td>
-
 		</tr>
 		<tr>
 			<td><label>Amount to transfer</label></td>

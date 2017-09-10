@@ -50,4 +50,16 @@ public class UserServiceImpl implements UserService {
 		userDao.delete(user);
 	}
 
+	public boolean isUserExist(User user) {
+		if (userDao.findbyemail(user.getEmail()) == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public void deleteAllUsers() {
+		userDao.deleteAllUser();
+	}
+
 }

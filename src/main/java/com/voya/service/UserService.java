@@ -18,4 +18,8 @@ public interface UserService {
 
 	void deleteUser(User user);
 
+	boolean isUserExist(User user);
+
+	void deleteAllUsers();
+
 }

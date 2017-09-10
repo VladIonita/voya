@@ -94,4 +94,10 @@ public class UserDaoImpl implements UserDao {
 			}
 		});
 	}
+
+	public void deleteAllUser() {
+		String sql = "DELETE * FROM user";
+		jdbcTemplate.update(sql);
+	}
+
 }
