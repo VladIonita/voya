@@ -59,7 +59,7 @@ public class AccountDaoImpl implements AccountDao {
 		Object[] args = new Object[] { account.getBalance(), account.getId() };
 		return jdbcTemplate.update(sqlQuery, args) == 1;
 	}
-	
+
 	public List<Account> getAllAccounts(User user) {
 		try {
 			String sqlQuery = "SELECT * FROM account WHERE user_id = ?";
@@ -80,7 +80,6 @@ public class AccountDaoImpl implements AccountDao {
 		}
 	}
 
-	@Override
 	public Account findbyAccountNumber(String accountNumber) {
 		try {
 			String sqlQuery = "SELECT * FROM account WHERE account = ?";

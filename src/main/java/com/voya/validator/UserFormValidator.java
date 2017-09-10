@@ -40,8 +40,6 @@ public class UserFormValidator implements Validator {
 				errors.rejectValue("email", "Valid.userForm.email");
 			}
 
-
-
 		} else {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty.userForm.email");
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "first_name", "NotEmpty.userForm.first_name");

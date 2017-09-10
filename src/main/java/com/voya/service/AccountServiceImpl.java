@@ -36,5 +36,4 @@ public class AccountServiceImpl implements AccountService {
 		Account account = accountDao.findbyAccountNumber(accountNumber);
 		return (account == null || ((id != null) && (account.getId() == id)));
 	}
-
 }

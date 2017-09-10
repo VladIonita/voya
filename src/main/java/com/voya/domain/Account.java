@@ -13,13 +13,19 @@ public class Account {
 	@NotNull
 	private String account;
 
+	@NotNull
 	private Integer balance;
 
 	private final String currency = "RON";
 
+	@NotNull
 	private String from;
 
+	@NotNull
 	private String to;
+
+	@NotNull
+	private Integer dep;
 
 	public Account() {
 	}
@@ -88,6 +94,14 @@ public class Account {
 		this.to = to;
 	}
 
+	public Integer getDep() {
+		return dep;
+	}
+
+	public void setDep(Integer dep) {
+		this.dep = dep;
+	}
+
 	// [RO][VV][BBBB][CCCCCCCCCCCCCCCC]
 	public String randomAccountGeneration() {
 		StringBuilder s = new StringBuilder();
@@ -105,5 +119,4 @@ public class Account {
 		}
 		return s.toString();
 	}
-
 }

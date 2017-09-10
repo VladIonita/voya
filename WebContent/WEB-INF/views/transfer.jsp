@@ -6,13 +6,13 @@
 
 
 <spring:url value="/userprofile/${id}/transfer" var="userActionUrl" />
-<form:form modelAttribute="tranForm" method="post"
+<form:form modelAttribute="depositForm" method="post"
 	action="${userActionUrl}">
 
 	<table align="center">
 		<tr>
 			<td><label>Select Account From</label></td>
-			<td><form:select path="from">
+			<td><form:select path="account">
 					<form:options items="${listAccount}" itemLabel="account"
 						itemValue="id" />
 				</form:select></td>
@@ -27,7 +27,8 @@
 		</tr>
 		<tr>
 			<td><label>Amount to transfer</label></td>
-			<td><input name="dep" id="dep" />
+			<td><input name="dep" id="dep" /> <form:errors path="dep"
+					class="control-label" />
 		</tr>
 		<tr>
 			<td><input type="submit" value="Transfer"

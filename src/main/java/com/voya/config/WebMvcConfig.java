@@ -40,7 +40,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 		resolver.setViewClass(JstlView.class);
 		return resolver;
 	}
-	
+
 	@Bean
 	public ResourceBundleMessageSource messageSource() {
 		ResourceBundleMessageSource rb = new ResourceBundleMessageSource();

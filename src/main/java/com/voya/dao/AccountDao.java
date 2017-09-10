@@ -14,7 +14,6 @@ public interface AccountDao {
 	boolean update(Account account);
 
 	List<Account> getAllAccounts(User user);
-	
+
 	Account findbyAccountNumber(String accountNumber);
-	
 }

@@ -18,7 +18,8 @@
 		</tr>
 		<tr>
 			<td><label>Amount to deposit</label></td>
-			<td><input name="dep" id="dep" />
+			<td><input name="dep" id="dep" /> <form:errors path="dep"
+					class="control-label" />
 		</tr>
 		<tr>
 			<td><input type="submit" value="Deposit"
