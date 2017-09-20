@@ -103,20 +103,20 @@ public class Account {
 	}
 
 	// [RO][VV][BBBB][CCCCCCCCCCCCCCCC]
-	public String randomAccountGeneration() {
-		StringBuilder s = new StringBuilder();
-		System.out.println(s.toString());
-		char[] chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
-		char[] chars2 = "0123456789".toCharArray();
-		Random rnd = new Random();
-		s.append("RO");
-		s.append(10 + rnd.nextInt(89));
+	private String randomAccountGeneration() {
+		StringBuilder stringBuilder = new StringBuilder();
+		System.out.println(stringBuilder.toString());
+		char[] charsAlfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+		char[] charsNumeric = "0123456789".toCharArray();
+		Random random = new Random();
+		stringBuilder.append("RO");
+		stringBuilder.append(10 + random.nextInt(89));
 		for (int i = 0; i < 4; i++) {
-			s.append(chars[rnd.nextInt(chars.length)]);
+			stringBuilder.append(charsAlfabet[random.nextInt(charsAlfabet.length)]);
 		}
 		for (int i = 0; i < 16; i++) {
-			s.append(chars2[rnd.nextInt(chars2.length)]);
+			stringBuilder.append(charsNumeric[random.nextInt(charsNumeric.length)]);
 		}
-		return s.toString();
+		return stringBuilder.toString();
 	}
 }

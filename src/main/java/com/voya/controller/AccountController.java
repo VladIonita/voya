@@ -1,5 +1,7 @@
 package com.voya.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,65 +43,75 @@ public class AccountController {
 		binder.setValidator(accountFormValidator);
 	}
 
-	// show deposit
+	private Account accountNew;
+
 	@RequestMapping(value = "/{id}/deposit", method = RequestMethod.GET)
 	public String showDepositForm(@PathVariable("id") int id, Model model) {
-		User user = userService.findById(id);
-		model.addAttribute("listAccount", accountService.getAccount(user));
-		Account account = new Account();
-		model.addAttribute("depositForm", account);
+		model.addAttribute("listAccount", findAccountByUser(findUserById(id)));
+		model.addAttribute("depositForm", new Account());
 		model.addAttribute("partial", "deposit");
 		return "index";
 	}
 
-	// deposit
 	@RequestMapping(value = "/{id}/deposit", method = RequestMethod.POST)
 	public String showDepositForm(@PathVariable int id, @ModelAttribute("depositForm") @Validated Account accountg,
 			BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			User user = userService.findById(id);
-			model.addAttribute("listAccount", accountService.getAccount(user));
+			model.addAttribute("listAccount", findAccountByUser(findUserById(id)));
 			model.addAttribute("partial", "deposit");
 			return "index";
 		}
-		Account account = accountService.findById(Integer.parseInt(accountg.getAccount()));
-		User user = userService.findById(id);
-		account.setBalance(account.getBalance() + accountg.getDep());
-		accountService.saveOrUpdate(account);
-		LOGGER.info("User " + user.getId() + " deposit " + accountg.getDep() + " in to account " + account.getId());
-		return "redirect:/userprofile/" + user.getId();
+		findAccountAddToBalanceAndSave(Integer.parseInt(accountg.getAccount()), accountg.getDep());
+		LOGGER.info("User " + id + " deposit " + accountg.getDep() + " in to account "
+				+ Integer.parseInt(accountg.getAccount()));
+		return "redirect:/userprofile/" + id;
 	}
 
-	// show transfer
 	@RequestMapping(value = "/{id}/transfer", method = RequestMethod.GET)
 	public String showTransferForm(@PathVariable("id") int id, Model model) {
-		User user = userService.findById(id);
-		model.addAttribute("listAccount", accountService.getAccount(user));
-		Account account = new Account();
-		model.addAttribute("depositForm", account);
+		model.addAttribute("listAccount", findAccountByUser(findUserById(id)));
+		model.addAttribute("depositForm", new Account());
 		model.addAttribute("partial", "transfer");
 		return "index";
 	}
 
-	// transfer
 	@RequestMapping(value = "/{id}/transfer", method = RequestMethod.POST)
 	public String showTransferForm(@PathVariable("id") int id,
 			@ModelAttribute("depositForm") @Validated Account account, BindingResult result, Model model) {
 		if (result.hasErrors()) {
-			User user = userService.findById(id);
-			model.addAttribute("listAccount", accountService.getAccount(user));
+			model.addAttribute("listAccount", findAccountByUser(findUserById(id)));
 			model.addAttribute("partial", "transfer");
 			return "index";
 		}
-		Account accountNew = accountService.findById(Integer.parseInt(account.getTo()));
-		User user = userService.findById(id);
-		accountNew.setBalance(accountNew.getBalance() + account.getDep());
-		accountService.saveOrUpdate(accountNew);
-		Account accountOld = accountService.findById(Integer.parseInt(account.getAccount()));
-		accountOld.setBalance(accountOld.getBalance() - account.getDep());
-		accountService.saveOrUpdate(accountOld);
-		LOGGER.info("User " + user.getId() + " transfer " + account.getDep() + " from account " + account.getAccount()
+		findAccountAddToBalanceAndSave(Integer.parseInt(account.getTo()), account.getDep());
+		findAccountDecreasesBalanceAndSave(Integer.parseInt(account.getAccount()), account.getDep());
+		LOGGER.info("User " + id + " transfer " + account.getDep() + " from account " + account.getAccount()
 				+ " in to account " + account.getTo());
-		return "redirect:/userprofile/" + user.getId();
+		return "redirect:/userprofile/" + id;
 	}
+
+	private User findUserById(int id) {
+		return userService.findById(id);
+	}
+
+	private List<Account> findAccountByUser(User user) {
+		return accountService.getAccount(user);
+	}
+	
+	private void findAccountById(int id) {
+		accountNew = accountService.findById(id);
+	}
+
+	private void findAccountAddToBalanceAndSave(int id, int deposit) {
+		findAccountById(id);
+		accountNew.setBalance(accountNew.getBalance() + deposit);
+		accountService.saveOrUpdate(accountNew);
+	}
+
+	private void findAccountDecreasesBalanceAndSave(int id, int deposit) {
+		findAccountById(id);
+		accountNew.setBalance(accountNew.getBalance() - deposit);
+		accountService.saveOrUpdate(accountNew);
+	}
+
 }
