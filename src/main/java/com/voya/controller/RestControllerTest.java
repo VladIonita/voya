@@ -28,7 +28,7 @@ public class RestControllerTest {
 	
 	@RequestMapping(value = "/rest/user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
-        List<User> users = userService.getUsers();
+        List<User> users = userService.getAllUsers();
         if(users.isEmpty()){
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
         }
@@ -41,7 +41,7 @@ public class RestControllerTest {
     @RequestMapping(value = "/rest/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> getUser(@PathVariable("id") int id) {
         System.out.println("Fetching User with id " + id);
-        User user = userService.findById(id);
+        User user = userService.findUserById(id);
         if (user == null) {
             System.out.println("User with id " + id + " not found");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
@@ -61,7 +61,7 @@ public class RestControllerTest {
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }
  
-        userService.save(user);
+        userService.saveUser(user);
  
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/rest/user/{id}").buildAndExpand(user.getId()).toUri());
@@ -75,7 +75,7 @@ public class RestControllerTest {
     public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) {
         System.out.println("Updating User " + id);
          
-        User currentUser = userService.findById(id);
+        User currentUser = userService.findUserById(id);
          
         if (currentUser==null) {
             System.out.println("User with id " + id + " not found");
@@ -86,7 +86,7 @@ public class RestControllerTest {
         currentUser.setLast_name(user.getLast_name());
         currentUser.setEmail(user.getEmail());
          
-        userService.update(currentUser);
+        userService.updateUser(currentUser);
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
  
@@ -96,7 +96,7 @@ public class RestControllerTest {
     public ResponseEntity<User> deleteUser(@PathVariable("id") int id) {
         System.out.println("Fetching & Deleting User with id " + id);
  
-        User user = userService.findById(id);
+        User user = userService.findUserById(id);
         if (user == null) {
             System.out.println("Unable to delete. User with id " + id + " not found");
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);

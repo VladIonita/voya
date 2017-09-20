@@ -15,25 +15,25 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private AccountDao accountDao;
 
-	public Account findById(Integer id) {
-		return accountDao.fById(id);
+	public Account findAccountById(Integer id) {
+		return accountDao.findAccountById(id);
 	}
 
 	public void saveOrUpdate(Account account) {
-		if (findById(account.getId()) == null) {
-			accountDao.save(account);
+		if (findAccountById(account.getId()) == null) {
+			accountDao.saveAccount(account);
 		} else {
-			accountDao.update(account);
+			accountDao.updateAccount(account);
 		}
 	}
 
-	public List<Account> getAccount(User user) {
-		return accountDao.getAllAccounts(user);
+	public List<Account> getAccountsByUser(User user) {
+		return accountDao.getAllAccountsFromUser(user);
 	}
 
 	@Override
 	public boolean isAccountNumberUnique(Integer id, String accountNumber) {
-		Account account = accountDao.findbyAccountNumber(accountNumber);
+		Account account = accountDao.findByAccountNumber(accountNumber);
 		return (account == null || ((id != null) && (account.getId() == id)));
 	}
 }

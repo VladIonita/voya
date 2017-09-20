@@ -6,13 +6,13 @@ import com.voya.domain.User;
 
 public interface UserService {
 
-	User findById(Integer id);
+	User findUserById(Integer id);
 
-	void save(User user);
+	void saveUser(User user);
 
-	void update(User user);
+	void updateUser(User user);
 
-	public List<User> getUsers();
+	public List<User> getAllUsers();
 
 	boolean isUserEmailUnique(Integer id, String email);
 

@@ -19,39 +19,39 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private AccountDao accountDao;
 
-	public User findById(Integer id) {
-		return userDao.fById(id);
+	public User findUserById(Integer id) {
+		return userDao.findUserById(id);
 
 	}
 
-	public void save(User user) {
-		userDao.save(user);
-		User user2 = userDao.findbyemail(user.getEmail());
-		Account account = new Account(user2);
-		if (accountDao.findbyAccountNumber(account.getAccount()) == null) {
-			accountDao.save(account);
+	public void saveUser(User user) {
+		userDao.saveUser(user);
+		User currentUser = userDao.findUserByEmail(user.getEmail());
+		Account account = new Account(currentUser);
+		if (accountDao.findByAccountNumber(account.getAccount()) == null) {
+			accountDao.saveAccount(account);
 		}
 	}
 
-	public void update(User user) {
-		userDao.update(user);
+	public void updateUser(User user) {
+		userDao.updateUser(user);
 	}
 
-	public List<User> getUsers() {
+	public List<User> getAllUsers() {
 		return userDao.getAllUsers();
 	}
 
 	public boolean isUserEmailUnique(Integer id, String email) {
-		User user = userDao.findbyemail(email);
+		User user = userDao.findUserByEmail(email);
 		return (user == null || ((id != null) && (user.getId() == id)));
 	}
 
 	public void deleteUser(User user) {
-		userDao.delete(user);
+		userDao.deleteUser(user);
 	}
 
 	public boolean isUserExist(User user) {
-		if (userDao.findbyemail(user.getEmail()) == null) {
+		if (userDao.findUserByEmail(user.getEmail()) == null) {
 			return false;
 		} else {
 			return true;
@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public void deleteAllUsers() {
-		userDao.deleteAllUser();
+		userDao.deleteAllUsers();
 	}
 
 }

@@ -27,7 +27,7 @@ public class AccountFormValidator implements Validator {
 		if (account.getDep() == null) {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dep", "NotEmpty.depositForm.dep");
 		} else if (account.getTo() != null) {
-			if (account.getDep() > accountService.findById(Integer.parseInt(account.getAccount())).getBalance()) {
+			if (account.getDep() > accountService.findAccountById(Integer.parseInt(account.getAccount())).getBalance()) {
 				errors.rejectValue("dep", "Valid.depositForm.dep");
 			}
 		}

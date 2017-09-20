@@ -1,7 +1,5 @@
 package com.voya.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -9,7 +7,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.voya.domain.Account;
@@ -28,72 +25,47 @@ public class AccountDaoImpl implements AccountDao {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	public Account fById(Integer id) {
+	public Account findAccountById(Integer id) {
 		try {
-			String sqlQuery = "SELECT * FROM account WHERE id =?";
-			Object[] args = new Object[] { id };
-			Account account = jdbcTemplate.queryForObject(sqlQuery, args, new RowMapper<Account>() {
-				public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
-					Account account = new Account();
-					account.setId(rs.getInt("id"));
-					account.setUser(userDao.fById(rs.getInt("user_id")));
-					account.setAccount(rs.getString("account"));
-					account.setBalance(rs.getInt("balance"));
-					return account;
-				}
-			});
-			return account;
+			return jdbcTemplate.queryForObject("SELECT * FROM account WHERE id =?", new Object[] { id },
+					(resultSet, rowNum) -> {
+						return new Account(resultSet.getInt("id"), userDao.findUserById(resultSet.getInt("user_id")),
+								resultSet.getString("account"), resultSet.getInt("balance"));
+					});
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
 	}
 
-	public boolean save(Account account) {
-		String sqlQuery = "INSERT INTO account (account, user_id) VALUES (?, ?)";
-		Object[] args = new Object[] { account.getAccount(), account.getUser().getId() };
-		return jdbcTemplate.update(sqlQuery, args) == 1;
+	public boolean saveAccount(Account account) {
+		return jdbcTemplate.update("INSERT INTO account (account, user_id) VALUES (?, ?)",
+				new Object[] { account.getAccount(), account.getUser().getId() }) == 1;
 	}
 
-	public boolean update(Account account) {
-		String sqlQuery = "UPDATE account SET balance = ? WHERE id = ?";
-		Object[] args = new Object[] { account.getBalance(), account.getId() };
-		return jdbcTemplate.update(sqlQuery, args) == 1;
+	public boolean updateAccount(Account account) {
+		return jdbcTemplate.update("UPDATE account SET balance = ? WHERE id = ?",
+				new Object[] { account.getBalance(), account.getId() }) == 1;
 	}
 
-	public List<Account> getAllAccounts(User user) {
+	public List<Account> getAllAccountsFromUser(User user) {
 		try {
-			String sqlQuery = "SELECT * FROM account WHERE user_id = ?";
-			Object[] args = new Object[] { user.getId() };
-			List<Account> account = jdbcTemplate.query(sqlQuery, args, new RowMapper<Account>() {
-				public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
-					Account account = new Account();
-					account.setId(rs.getInt("id"));
-					account.setUser(userDao.fById(rs.getInt("user_id")));
-					account.setAccount(rs.getString("account"));
-					account.setBalance(rs.getInt("balance"));
-					return account;
-				}
-			});
-			return account;
+			return jdbcTemplate.query("SELECT * FROM account WHERE user_id = ?", new Object[] { user.getId() },
+					(resultSet, rowNum) -> {
+						return new Account(resultSet.getInt("id"), userDao.findUserById(resultSet.getInt("user_id")),
+								resultSet.getString("account"), resultSet.getInt("balance"));
+					});
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
 	}
 
-	public Account findbyAccountNumber(String accountNumber) {
+	public Account findByAccountNumber(String accountNumber) {
 		try {
-			String sqlQuery = "SELECT * FROM account WHERE account = ?";
-			Object[] args = new Object[] { accountNumber };
-			Account account = jdbcTemplate.queryForObject(sqlQuery, args, new RowMapper<Account>() {
-				public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
-					Account account = new Account();
-					account.setId(rs.getInt("id"));
-					account.setUser(userDao.fById(rs.getInt("user_id")));
-					account.setAccount(rs.getString("account"));
-					account.setBalance(rs.getInt("balance"));
-					return account;
-				}
-			});
+			Account account = jdbcTemplate.queryForObject("SELECT * FROM account WHERE account = ?",
+					new Object[] { accountNumber }, (resultSet, rowNum) -> {
+						return new Account(resultSet.getInt("id"), userDao.findUserById(resultSet.getInt("user_id")),
+								resultSet.getString("account"), resultSet.getInt("balance"));
+					});
 			return account;
 		} catch (EmptyResultDataAccessException e) {
 			return null;

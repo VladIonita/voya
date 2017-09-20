@@ -18,6 +18,16 @@ public class User {
 	@NotNull
 	private String last_name;
 
+	public User() {
+	}
+
+	public User(Integer id, String email, String first_name, String last_name) {
+		this.id = id;
+		this.email = email;
+		this.first_name = first_name;
+		this.last_name = last_name;
+	}
+
 	public Integer getId() {
 		return id;
 	}

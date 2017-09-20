@@ -7,13 +7,13 @@ import com.voya.domain.User;
 
 public interface AccountDao {
 
-	Account fById(Integer id);
+	Account findAccountById(Integer id);
 
-	boolean save(Account account);
+	boolean saveAccount(Account account);
 
-	boolean update(Account account);
+	boolean updateAccount(Account account);
 
-	List<Account> getAllAccounts(User user);
+	List<Account> getAllAccountsFromUser(User user);
 
-	Account findbyAccountNumber(String accountNumber);
+	Account findByAccountNumber(String accountNumber);
 }

@@ -91,15 +91,15 @@ public class AccountController {
 	}
 
 	private User findUserById(int id) {
-		return userService.findById(id);
+		return userService.findUserById(id);
 	}
 
 	private List<Account> findAccountByUser(User user) {
-		return accountService.getAccount(user);
+		return accountService.getAccountsByUser(user);
 	}
 	
 	private void findAccountById(int id) {
-		accountNew = accountService.findById(id);
+		accountNew = accountService.findAccountById(id);
 	}
 
 	private void findAccountAddToBalanceAndSave(int id, int deposit) {

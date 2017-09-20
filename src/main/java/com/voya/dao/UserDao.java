@@ -6,17 +6,17 @@ import com.voya.domain.User;
 
 public interface UserDao {
 
-	User fById(Integer id);
+	User findUserById(Integer id);
 
-	boolean save(User user);
+	boolean saveUser(User user);
 
-	boolean update(User user);
+	boolean updateUser(User user);
 
-	boolean delete(User user);
+	boolean deleteUser(User user);
 
 	List<User> getAllUsers();
 
-	User findbyemail(String email);
+	User findUserByEmail(String email);
 
-	void deleteAllUser();
+	void deleteAllUsers();
 }

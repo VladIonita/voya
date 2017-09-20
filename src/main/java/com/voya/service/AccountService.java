@@ -7,11 +7,11 @@ import com.voya.domain.User;
 
 public interface AccountService {
 
-	Account findById(Integer id);
+	Account findAccountById(Integer id);
 
 	void saveOrUpdate(Account account);
 
-	public List<Account> getAccount(User user);
+	public List<Account> getAccountsByUser(User user);
 
 	boolean isAccountNumberUnique(Integer id, String account);
 

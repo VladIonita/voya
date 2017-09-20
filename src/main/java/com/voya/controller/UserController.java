@@ -43,75 +43,79 @@ public class UserController {
 	@Autowired
 	AccountService accountService;
 
-	// list all users
+	User user;
+	Account account;
+
 	@RequestMapping
-	public String usersPage(ModelMap model) {
-		model.addAttribute("listUser", userService.getUsers());
+	public String listAllUsersOnPage(ModelMap model) {
+		model.addAttribute("listUser", userService.getAllUsers());
 		model.addAttribute("pageTitle", "Users List");
 		model.addAttribute("partial", "home");
 		return "home";
 	}
 
-	// form save or update
 	@RequestMapping(value = { "/edit/{id}", "/edit" }, method = RequestMethod.GET)
-	public String user(@PathVariable Optional<String> id, Model model) {
-		User user;
-		if (id.isPresent()) {
-			user = userService.findById(Integer.parseInt(id.get()));
-		} else {
-			user = new User();
-		}
+	public String userFormPage(@PathVariable Optional<String> id, Model model) {
+		checkIfIdIsPresent(id);
 		model.addAttribute("userForm", user);
 		model.addAttribute("partial", "register");
 		return "index";
 	}
 
-	// save or update user
 	@RequestMapping(value = { "/edit/{id}", "/edit" }, method = RequestMethod.POST)
-	public String saveOrUpdateUser(@ModelAttribute("userForm") @Validated User user, BindingResult result,
-			Model model) {
+	public String userFormPage(@ModelAttribute("userForm") @Validated User user, BindingResult result, Model model) {
 		if (result.hasErrors()) {
 			model.addAttribute("partial", "register");
 			return "index";
 		}
-		if (userService.findById(user.getId()) == null) {
-			userService.save(user);
+		if (findUserById(user.getId()) == null) {
+			userService.saveUser(user);
 			LOGGER.info("New user " + user.getId() + " created");
 		} else {
-			userService.update(user);
-			LOGGER.info("User " + user.getId() +" updated");
+			userService.updateUser(user);
+			LOGGER.info("User " + user.getId() + " updated");
 		}
 		return "redirect:/";
 	}
 
-	// delete user
 	@RequestMapping(value = "/userdelete/{id}", method = RequestMethod.GET)
 	public String userDelete(@PathVariable("id") Integer id, Model model) {
-		User user = userService.findById(id);
+		findUserById(id);
 		userService.deleteUser(user);
-		LOGGER.info("User " + user.getId() +" deleted");
+		LOGGER.info("User " + user.getId() + " deleted");
 		return "redirect:/";
 	}
 
-	// show user profile
 	@RequestMapping(value = "/userprofile/{id}", method = RequestMethod.GET)
-	public String UserFormProfile(@PathVariable("id") int id, Model model) {
-		User user = userService.findById(id);
+	public String userProfile(@PathVariable("id") int id, Model model) {
+		findUserById(id);
 		model.addAttribute("userForm", user);
-		model.addAttribute("listAccount", accountService.getAccount(user));
+		model.addAttribute("listAccount", accountService.getAccountsByUser(user));
 		return "userprofile";
 	}
 
-	// create account
 	@RequestMapping(value = "/userprofile/{id}/createaccount", method = RequestMethod.GET)
 	public String createAccount(@PathVariable("id") int id, Model model) {
-		User user = userService.findById(id);
-		Account account = new Account(user);
+		findUserById(id);
+		account = new Account(user);
 		accountService.saveOrUpdate(account);
 		model.addAttribute("userForm", user);
-		model.addAttribute("listAccount", accountService.getAccount(user));
-		LOGGER.info("User "  + user.getId() + " created new account with id " + account.getId() );
+		model.addAttribute("listAccount", accountService.getAccountsByUser(user));
+		LOGGER.info("User " + user.getId() + " created new account with id " + account.getId());
 		return "redirect:/userprofile/" + user.getId();
+	}
+
+	private void checkIfIdIsPresent(Optional<String> id) {
+		if (id.isPresent()) {
+			user = userService.findUserById(Integer.parseInt(id.get()));
+		} else {
+			user = new User();
+		}
+	}
+
+	private User findUserById(Integer id) {
+		user = userService.findUserById(id);
+		return user;
 	}
 
 }
