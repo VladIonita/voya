@@ -24,7 +24,7 @@ public class AccountDaoImpl implements AccountDao {
 	public void setDataSource(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
-
+	
 	public Account findAccountById(Integer id) {
 		try {
 			return jdbcTemplate.queryForObject("SELECT * FROM account WHERE id =?", new Object[] { id },
@@ -72,3 +72,6 @@ public class AccountDaoImpl implements AccountDao {
 		}
 	}
 }
+
+
+

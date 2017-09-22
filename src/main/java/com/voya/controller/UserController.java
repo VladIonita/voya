@@ -46,7 +46,7 @@ public class UserController {
 	User user;
 	Account account;
 
-	@RequestMapping
+	@RequestMapping(value ="/", method = RequestMethod.GET)
 	public String listAllUsersOnPage(ModelMap model) {
 		model.addAttribute("listUser", userService.getAllUsers());
 		model.addAttribute("pageTitle", "Users List");

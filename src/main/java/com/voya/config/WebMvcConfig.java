@@ -12,6 +12,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
+import com.voya.service.UserService;
+import com.voya.service.UserServiceImpl;
+
 @Configuration
 @ComponentScan("com.voya")
 @EnableWebMvc

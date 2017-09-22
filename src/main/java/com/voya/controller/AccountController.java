@@ -30,13 +30,13 @@ public class AccountController {
 	private static Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@Autowired
-	AccountService accountService;
+	private AccountService accountService;
 
 	@Autowired
-	AccountFormValidator accountFormValidator;
+	private AccountFormValidator accountFormValidator;
 
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
